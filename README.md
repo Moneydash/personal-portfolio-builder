@@ -1,7 +1,7 @@
-# Portfolio Builder
+# Personal Portfolio Builder
 
 ## Overview
-Portfolio Builder is a web application designed to help users create and showcase their personal portfolios easily. This project allows users to display their skills, projects, and social media links in a visually appealing format. The application is built using modern web technologies, ensuring a responsive and user-friendly experience.
+Personal Portfolio Builder is a web application designed to help users create and showcase their personal portfolios easily. This project allows users to display their skills, projects, and social media links in a visually appealing format. The application is built using modern web technologies, ensuring a responsive and user-friendly experience.
 
 ## Features
 - **Responsive Design**: The portfolio adapts to various screen sizes, providing an optimal viewing experience on desktops, tablets, and mobile devices.
@@ -19,15 +19,15 @@ Portfolio Builder is a web application designed to help users create and showcas
 - Devicons for social media icons
 
 ## Installation
-To get started with the Portfolio Builder, follow these steps:
+To get started with the Personal Portfolio Builder, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/portfolio-builder.git
+   git clone https://github.com/Moneydash/personal-portfolio-builder.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd portfolio-builder
+   cd personal-portfolio-builder
    ```
 3. Open `index.html` in your web browser to view the portfolio.
 
@@ -37,6 +37,9 @@ To get started with the Portfolio Builder, follow these steps:
 
 ## Contributing
 Contributions are welcome! If you have suggestions for improvements or new features, please open an issue or submit a pull request.
+
+## Star the Project
+If you like this project, please consider giving it a star ⭐ on GitHub! Your support helps improve the project and encourages further development.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
