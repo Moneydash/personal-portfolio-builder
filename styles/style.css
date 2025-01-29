@@ -170,7 +170,7 @@ textarea {
 }
 
 /* Project entry */
-.project-entry {
+.project-entry, .experience-entry {
     background-color: #fff;
     padding: 1.5rem;
     border: 1px solid #e2e8f0;
@@ -184,10 +184,10 @@ textarea {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.remove-project {
+.remove-project, .remove-experience {
     position: absolute;
     top: 1rem;
-    right: 1rem;
+    right: 1.7rem;
     background-color: #fff;
     color: #e53e3e;
     border: 1px solid #e53e3e;
@@ -195,9 +195,10 @@ textarea {
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
+    z-index: 10; /* Ensure the button is on top */
 }
 
-.remove-project:hover {
+.remove-project:hover, .remove-experience:hover {
     background-color: #e53e3e;
     color: #fff;
 }

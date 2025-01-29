@@ -44,7 +44,7 @@
                 </div>
             </section>
 
-            <!-- Skills -->
+            <!-- Languages === Not Dynamic, you can add more language or frameworks -->
             <section class="form-section">
                 <h2>Programming Languages & Frameworks</h2>
                 <div class="form-group">
@@ -125,6 +125,32 @@
                     </div>
                 </div>
                 <button type="button" id="addProject" class="btn-secondary">Add Another Project</button>
+            </section>
+
+            <!-- Experience -->
+            <section class="form-section">
+                <h2>Experiences</h2>
+                <div id="experiencesContainer">
+                    <div class="experience-entry">
+                        <div class="form-group">
+                            <label>Company:</label>
+                            <input type="text" name="experienceCompany[]" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Position/Role:</label>
+                            <input type="text" name="experienceRole[]" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Years:</label>
+                            <input type="text" name="experienceYears[]" placeholder="e.g., 2019 - 2022 or 2022 - Present" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Website:</label>
+                            <input type="url" name="experienceCompanyWebsite[]" placeholder="Website of the Company" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="addExperience" class="btn-secondary">Add Another Experience</button>
             </section>
 
             <!-- Social Links -->

@@ -5,6 +5,13 @@ interface Project {
     link: string;
 }
 
+interface Experience {
+    company: string;
+    role: string;
+    years: string;
+    companyWebsite: string;
+}
+
 interface PortfolioData {
     name: string;
     position: string;
@@ -14,6 +21,7 @@ interface PortfolioData {
     about: string;
     languages: string[];
     projects: Project[];
+    experiences: Experience[];
     social: {
         facebook: string;
         instagram: string;
@@ -25,7 +33,9 @@ interface PortfolioData {
 class PortfolioBuilder {
     private form: HTMLFormElement;
     private projectsContainer: HTMLDivElement;
+    private experiencesContainer: HTMLDivElement;
     private addProjectButton: HTMLButtonElement;
+    private addExperienceButton: HTMLButtonElement;
     private languageSelect: HTMLSelectElement;
     private selectedChips: HTMLDivElement;
     private selectedLanguages: string[] = [];
@@ -38,7 +48,9 @@ class PortfolioBuilder {
     private initializeElements(): void {
         this.form = document.getElementById('portfolioForm') as HTMLFormElement;
         this.projectsContainer = document.getElementById('projectsContainer') as HTMLDivElement;
+        this.experiencesContainer = document.getElementById('experiencesContainer') as HTMLDivElement;
         this.addProjectButton = document.getElementById('addProject') as HTMLButtonElement;
+        this.addExperienceButton = document.getElementById('addExperience') as HTMLButtonElement;
         this.languageSelect = document.getElementById('languageSelect') as HTMLSelectElement;
         this.selectedChips = document.getElementById('selectedChips') as HTMLDivElement;
     }
@@ -46,6 +58,7 @@ class PortfolioBuilder {
     private setupEventListeners(): void {
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
         this.addProjectButton.addEventListener('click', () => this.addProjectEntry());
+        this.addExperienceButton.addEventListener('click', () => this.addExperienceEntry());
         this.languageSelect.addEventListener('change', () => this.handleLanguageSelection());
 
         document.querySelectorAll('.remove-project').forEach(button => {
@@ -81,12 +94,50 @@ class PortfolioBuilder {
 
         this.projectsContainer.appendChild(projectEntry);
     }
+    
 
     private removeProjectEntry(e: Event): void {
         const button = e.target as HTMLButtonElement;
         const projectEntry = button.closest('.project-entry');
         if (projectEntry) {
             projectEntry.remove();
+        }
+    }
+
+    private addExperienceEntry(): void {
+        const experienceEntry = document.createElement('div');
+        experienceEntry.className = 'experience-entry';
+        experienceEntry.innerHTML = `
+            <button type="button" class="remove-experience">×</button>
+            <div class="form-group">
+                <label>Company:</label>
+                <input type="text" name="experienceCompany[]" required>
+            </div>
+            <div class="form-group">
+                <label>Position/Role:</label>
+                <input type="text" name="experienceRole[]" required>
+            </div>
+            <div class="form-group">
+                <label>Years:</label>
+                <input type="text" name="experienceYears[]" placeholder="e.g., 2019 - 2022 or 2022 - Present" required>
+            </div>
+            <div class="form-group">
+                <label>Company Website:</label>
+                <input type="url" name="experienceCompanyWebsite[]" placeholder="Website of the Company" required>
+            </div>
+        `;
+
+        const removeExpButton = experienceEntry.querySelector('.remove-experience');
+        removeExpButton?.addEventListener('click', (e) => this.removeExperienceEntry(e));
+
+        this.experiencesContainer.appendChild(experienceEntry);
+    }
+
+    private removeExperienceEntry(e: Event): void {
+        const button = e.target as HTMLButtonElement;
+        const experienceEntry = button.closest('.experience-entry');
+        if (experienceEntry) {
+            experienceEntry.remove();
         }
     }
 
@@ -135,11 +186,24 @@ class PortfolioBuilder {
         const projectLanguages = formData.getAll('projectLanguages[]');
         const projectLinks = formData.getAll('projectLink[]');
 
+        // Collect experiences data
+        const experienceCompany = formData.getAll('experienceCompany[]');
+        const experienceRole = formData.getAll('experienceRole[]');
+        const experienceYears = formData.getAll('experienceYears[]');
+        const experienceCompanyWebsite = formData.getAll('experienceCompanyWebsite[]');
+
         const projects: Project[] = projectNames.map((name, index) => ({
             name: name.toString(),
             description: projectDescriptions[index].toString(),
             languages: projectLanguages[index].toString().split(',').map(lang => lang.trim()),
             link: projectLinks[index].toString()
+        }));
+
+        const experiences: Experience[] = experienceCompany.map((name, index) => ({
+            company: name.toString(),
+            role: experienceRole[index].toString(),
+            years: experienceYears[index].toString(),
+            companyWebsite: experienceCompanyWebsite[index].toString()
         }));
 
         return {
@@ -151,6 +215,7 @@ class PortfolioBuilder {
             about: formData.get('about')?.toString() || '',
             languages: this.getSelectedLanguages(),
             projects: projects,
+            experiences: experiences,
             social: {
                 facebook: formData.get('facebook')?.toString() || '',
                 instagram: formData.get('instagram')?.toString() || '',
@@ -223,7 +288,7 @@ class PortfolioBuilder {
             color: var(--accent);
         }
 
-        .container {
+        .container, .main {
             max-width: 1000px;
             margin: 30px auto auto auto;
             padding: 30px;
@@ -241,7 +306,7 @@ class PortfolioBuilder {
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        #languages, #frameworks {
+        #languages, #frameworks, #experience {
             background: transparent;
             box-shadow: none;
             padding: 0;
@@ -515,11 +580,10 @@ class PortfolioBuilder {
         }
         
         .main {
-            display: flex; /* Use flexbox */
+            display: flex; /* Ensure flexbox is applied */
             flex-direction: column; /* Stack children vertically */
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Center vertically */
-            padding: 2rem; /* Add padding */
+            align-items: center; /* Center children horizontally */
+            justify-content: center; /* Center children vertically */
         }
         
         .projects {
@@ -528,18 +592,20 @@ class PortfolioBuilder {
         }
 
         .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+            display: flex; /* Use flexbox for inline layout */
+            flex-wrap: wrap; /* Allow wrapping to the next line */
+            justify-content: center; /* Center the cards horizontally */
             gap: 1.5rem; /* Space between cards */
-            padding: 1rem;
+            padding: 1rem; /* Padding around the grid */
         }
 
         .project-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 1.5rem;
-            transition: transform 0.2s;
+            background: white; /* White background for cards */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            padding: 1.5rem; /* Padding inside the card */
+            width: 300px; /* Fixed width for cards */
+            transition: transform 0.2s; /* Smooth transition for hover effect */
         }
 
         .project-card:hover {
@@ -584,6 +650,59 @@ class PortfolioBuilder {
         .project-link:hover {
             background-color: #2980b9;
         }
+        
+        .experience {
+            padding: 2rem 0; /* Add padding to the top and bottom */
+        }
+
+        .experience h2 {
+            text-align: center; /* Center the section title */
+            margin-bottom: 1.5rem; /* Space below the title */
+            color: var(--primary-dark); /* Use your primary color */
+        }
+
+        /* Base styles for experience grid */
+        .experience-grid {
+            display: grid; /* Use flexbox for layout */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; /* Space between cards */
+            padding: 20px 0; /* Padding around the grid */
+        }
+
+        .experience-card {
+            background: white; /* White background for cards */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            padding: 25px; /* Padding inside the card */
+            transition: transform 0.2s; /* Smooth transition for hover effect */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+        }
+
+        .experience-info h3 {
+            margin-bottom: 0.5rem; /* Space below the company name */
+            font-size: 1.5rem; /* Font size for company name */
+            color: #2c3e50; /* Dark color for text */
+        }
+
+        .experience-info p {
+            margin-bottom: 0.5rem; /* Space below paragraphs */
+            color: #666; /* Gray color for text */
+        }
+
+        .experience-info a {
+            color: var(--accent); /* Accent color for links */
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        .experience-info a:hover {
+            text-decoration: underline; /* Underline on hover for links */
+        }
 
         .social-links {
             display: flex;
@@ -621,6 +740,7 @@ class PortfolioBuilder {
             <a href="#about">About</a>
             <a href="#languages">Languages</a>
             <a href="#projects">Projects</a>
+            <a href="#experience">Experience</a>
             <a href="#contact">Contact</a>
         </nav>
     </header>
@@ -668,9 +788,7 @@ class PortfolioBuilder {
                 }
             </div>
         </section>
-    </div>
 
-    <div class="main">
         <section id="projects" class="projects">
             <h2>My Projects</h2>
             <div class="projects-grid">
@@ -683,6 +801,22 @@ class PortfolioBuilder {
                                 ${project.languages.map(lang => `<span class="language-tag">${lang}</span>`).join('')}
                             </div>
                             <a href="${project.link}" target="_blank" class="project-link">View Project</a>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </section>
+        
+        <section id="experience">
+            <h2 style="text-align: center;">Work Experience</h2>
+            <div class="experience-grid">
+                ${data.experiences.map(exp => `
+                    <div class="experience-card">
+                        <div class="experience-info">
+                            <h3>${exp.company}</h3>
+                            <p><strong>Position:</strong> ${exp.role}</p>
+                            <p><strong>Years:</strong> ${exp.years}</p>
+                            <p><strong>Website:</strong> <a href="${exp.companyWebsite}" target="_blank">${exp.companyWebsite}</a></p>
                         </div>
                     </div>
                 `).join('')}
