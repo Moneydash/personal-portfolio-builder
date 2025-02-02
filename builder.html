@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Builder</title>
+    <link rel="stylesheet" href="styles/builder.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Build your Portfolio</h1>
+        <form id="portfolioForm">
+            <!-- Basic Information -->
+            <section class="form-section">
+                <h2>Basic Information</h2>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="position">Position:</label>
+                    <input type="text" id="position" name="position" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="about">Resume Link:</label>
+                    <input type="url" id="resume" name="resume" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="introduction">Introduction:</label>
+                    <textarea id="introduction" name="introduction" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="3" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="about">About:</label>
+                    <textarea id="about" name="about" rows="5" required></textarea>
+                </div>
+            </section>
+
+            <!-- Languages === Not Dynamic, you can add more language or frameworks -->
+            <section class="form-section">
+                <h2>Programming Languages & Frameworks</h2>
+                <div class="form-group">
+                    <label>Select Languages and Frameworks:</label>
+                    <div class="chips-container" id="languageChips">
+                        <div class="chips-input-container">
+                            <select id="languageSelect">
+                                <option value="" data-logo="">Select a language...</option>
+                                <option value="HTML5" data-display="HTML" data-logo="HTML5">HTML</option>
+                                <option value="CSS3" data-display="CSS" data-logo="CSS3">CSS</option>
+                                <option value="JavaScript" data-display="JavaScript" data-logo="JavaScript">JavaScript</option>
+                                <option value="TypeScript" data-display="TypeScript" data-logo="TypeScript">TypeScript</option>
+                                <option value="Python" data-display="Python" data-logo="Python">Python</option>
+                                <option value="Java" data-display="Java" data-logo="Java">Java</option>
+                                <option value="CPLUSPLUS" data-display="C++" data-logo="CPLUSPLUS">C++</option>
+                                <option value="CSHARP" data-display="C#" data-logo="CSHARP">C#</option>
+                                <option value="C" data-display="C" data-logo="C">C</option>
+                                <option value="DotNetCore" data-display=".NET Core" data-logo="DotNetCore">.NET Core</option>
+                                <option value="PHP" data-display="PHP" data-logo="PHP">PHP</option>
+                                <option value="Ruby" data-display="Ruby" data-logo="Ruby">Ruby</option>
+                                <option value="Swift" data-display="Swift" data-logo="Swift">Swift</option>
+                                <option value="Rust" data-display="Rust" data-logo="Rust">Rust</option>
+                                <option value="Perl" data-display="Perl" data-logo="Perl">Perl</option>
+                                <option value="Go" data-display="Go" data-logo="Go">Go</option>
+                                <option value="Node" data-display="Node.js" data-logo="Node">Node.js</option>
+                                <option value="Vue" data-display="Vue.js" data-logo="Vue">Vue.js</option>
+                                <option value="Angular" data-display="AngularJS" data-logo="Angular">AngularJS</option>
+                                <option value="React" data-display="React" data-logo="React">React</option>
+                                <option value="JQuery" data-display="jQuery" data-logo="JQuery">jQuery</option>
+                                <option value="Next" data-display="Next.js" data-logo="NextJS">Next.js</option>
+                                <option value="Laravel" data-display="Laravel" data-logo="Laravel">Laravel</option>
+                                <option value="Spring Boot" data-display="Spring Boot" data-logo="Spring Boot">Spring Boot</option>
+                                <option value="Django" data-display="Django" data-logo="Django">Django</option>
+                                <option value="Drupal" data-display="Drupal" data-logo="Drupal">Drupal</option>
+                                <option value="Flask" data-display="Flask" data-logo="Flask">Flask</option>
+                                <option value="Wordpress" data-display="WordPress" data-logo="Wordpress">WordPress</option>
+                                <option value="Codeigniter" data-display="CodeIgniter" data-logo="Codeigniter">CodeIgniter</option>
+                                <option value="TailwindCSS" data-display="Tailwind CSS" data-logo="TailwindCSS">Tailwind CSS</option>
+                                <option value="React Native" data-display="React Native" data-logo="React">React Native</option>
+                                <option value="Vue Native" data-display="Vue Native" data-logo="Vue">Vue Native</option>
+                                <option value="Flutter" data-display="Flutter" data-logo="Flutter">Flutter</option>
+                                <option value="MySQL" data-display="MySQL" data-logo="MySQL">MySQL</option>
+                                <option value="PostgreSQL" data-display="PostgreSQL" data-logo="PostgreSQL">PostgreSQL</option>
+                                <option value="Cassandra" data-display="Cassandra" data-logo="Cassandra">Cassandra</option>
+                                <option value="Supabase" data-display="Supabase" data-logo="Supabase">Supabase</option>
+                                <option value="MongoDB" data-display="MongoDB" data-logo="MongoDB">MongoDB</option>
+                                <!-- Add more languages as needed -->
+                            </select>
+                        </div>
+                        <div class="selected-chips" id="selectedChips">
+                            <!-- Selected languages will appear here as chips -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section class="form-section">
+                <h2>Projects</h2>
+                <div id="projectsContainer">
+                    <div class="project-entry">
+                        <div class="form-group">
+                            <label>Project Name:</label>
+                            <input type="text" name="projectName[]" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Description:</label>
+                            <textarea name="projectDescription[]" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Languages:</label>
+                            <input type="text" name="projectLanguages[]" placeholder="e.g., HTML, CSS, Javascript" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Project Link:</label>
+                            <input type="url" name="projectLink[]" placeholder="GitHub or Live Demo URL" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="addProject" class="btn-secondary">Add Another Project</button>
+            </section>
+
+            <!-- Experience -->
+            <section class="form-section">
+                <h2>Experiences</h2>
+                <div id="experiencesContainer">
+                    <div class="experience-entry">
+                        <div class="form-group">
+                            <label>Company:</label>
+                            <input type="text" name="experienceCompany[]" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Position/Role:</label>
+                            <input type="text" name="experienceRole[]" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Years:</label>
+                            <input type="text" name="experienceYears[]" placeholder="e.g., 2019 - 2022 or 2022 - Present" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Company Website:</label>
+                            <input type="url" name="experienceCompanyWebsite[]" placeholder="Website of the Company" required>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="addExperience" class="btn-secondary">Add Another Experience</button>
+            </section>
+
+            <!-- Social Links -->
+            <section class="form-section">
+                <h2>Social Accounts</h2>
+                <div class="form-group">
+                    <label for="facebook">Facebook:</label>
+                    <input type="url" id="facebook" name="facebook" placeholder="Facebook profile URL">
+                </div>
+                <div class="form-group">
+                    <label for="instagram">Instagram:</label>
+                    <input type="url" id="instagram" name="instagram" placeholder="Instagram profile URL">
+                </div>
+                <div class="form-group">
+                    <label for="github">GitHub:</label>
+                    <input type="url" id="github" name="github" placeholder="GitHub profile URL">
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn:</label>
+                    <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn profile URL">
+                </div>
+            </section>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Generate my Portfolio</button>
+            </div>
+        </form>
+    </main>
+
+    <footer>
+        <p>Powered by Christian Raquid - Portfolio Builder</p>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html> 
